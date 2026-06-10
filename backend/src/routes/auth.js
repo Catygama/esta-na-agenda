@@ -5,6 +5,13 @@ import { gerarToken } from "../middleware/auth.js";
 
 const router = Router();
 
+const DOMINIOS_PERMITIDOS = ["ipcb.pt", "ipcbcampus.pt"];
+
+function emailInstitucional(email) {
+  const dominio = String(email).split("@")[1]?.toLowerCase();
+  return DOMINIOS_PERMITIDOS.includes(dominio);
+}
+
 // POST /api/auth/registo  -> cria um aluno (coordenadores criam-se via seed)
 router.post("/registo", (req, res) => {
   const { nome, email, password } = req.body;
