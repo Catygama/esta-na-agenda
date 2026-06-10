@@ -56,6 +56,7 @@ input:focus, select:focus, textarea:focus {
 }
 label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--tinta-suave); margin-bottom: 6px; }
 .campo { margin-bottom: 16px; }
+.ajuda-campo { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--tinta-suave); }
 
 /* ---- Login ---- */
 .login-ecra {
@@ -104,6 +105,84 @@ label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--tinta
   padding: 4px 10px;
   border-radius: 20px;
 }
+
+/* ---- Sino de notificacoes ---- */
+.sino-contentor { position: relative; }
+.sino-botao {
+  background: transparent;
+  color: var(--tinta-suave);
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.sino-botao:hover { background: var(--petroleo-claro); color: var(--petroleo); }
+.sino-contador {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--alerta);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--branco);
+}
+.sino-painel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  max-width: 90vw;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  z-index: 20;
+  overflow: hidden;
+}
+.sino-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borda);
+}
+.sino-marcar {
+  background: none;
+  color: var(--petroleo);
+  padding: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.sino-marcar:hover { background: none; text-decoration: underline; }
+.sino-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--borda);
+}
+.sino-item:last-child { border-bottom: none; }
+.sino-item.por-ler { background: var(--petroleo-claro); cursor: pointer; }
+.sino-ponto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--petroleo);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.sino-vazio { padding: 24px 14px; text-align: center; color: var(--tinta-suave); font-size: 0.88rem; }
 .conteudo { max-width: 920px; margin: 0 auto; padding: 28px 24px 60px; }
 .seccao-titulo { font-size: 1.3rem; font-weight: 700; margin: 28px 0 14px; letter-spacing: -0.01em; }
 .seccao-titulo:first-child { margin-top: 0; }

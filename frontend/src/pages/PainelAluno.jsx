@@ -6,7 +6,6 @@ export default function PainelAluno() {
   const [ucs, setUcs] = useState([]);
   const [subscritas, setSubscritas] = useState([]);
   const [datas, setDatas] = useState([]);
-  const [notifs, setNotifs] = useState([]);
   const [toast, setToast] = useState("");
   const [filtroEpoca, setFiltroEpoca] = useState("Todas");
 
@@ -17,16 +16,14 @@ export default function PainelAluno() {
     filtroEpoca === "Todas" ? datas : datas.filter((d) => d.epoca === filtroEpoca);
 
   async function carregar() {
-    const [todasUcs, minhas, asDatas, asNotifs] = await Promise.all([
+    const [todasUcs, minhas, asDatas] = await Promise.all([
       api.get("/ucs"),
       api.get("/subscricoes"),
       api.get("/datas"),
-      api.get("/notificacoes"),
     ]);
     setUcs(todasUcs);
     setSubscritas(minhas);
     setDatas(asDatas);
-    setNotifs(asNotifs);
   }
 
   useEffect(() => { carregar(); }, []);
@@ -46,18 +43,6 @@ export default function PainelAluno() {
 
   return (
     <div className="conteudo">
-      {notifs.length > 0 && (
-        <>
-          <h2 className="seccao-titulo">Avisos recentes</h2>
-          {notifs.slice(0, 5).map((n) => (
-            <div key={n.id} className="notif">
-              <span className="notif-ponto" />
-              <span>{n.mensagem}</span>
-            </div>
-          ))}
-        </>
-      )}
-
       <div className="seccao-cabecalho">
         <h2 className="seccao-titulo">As minhas datas</h2>
         {datas.length > 0 && (

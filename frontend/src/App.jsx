@@ -3,6 +3,7 @@ import { sessaoAtual, limparSessao } from "./api.js";
 import Login from "./pages/Login.jsx";
 import PainelAluno from "./pages/PainelAluno.jsx";
 import PainelCoordenador from "./pages/PainelCoordenador.jsx";
+import Sino from "./components/Sino.jsx";
 
 export default function App() {
   const [sessao, setSessao] = useState(sessaoAtual());
@@ -23,6 +24,7 @@ export default function App() {
       <header className="topo">
         <div className="marca"><span className="est">EST</span>á na Agenda</div>
         <div className="topo-dir">
+          {!ehCoordenador && <Sino />}
           <span className="perfil-badge">{ehCoordenador ? "Coordenador" : "Aluno"}</span>
           <span style={{ fontSize: "0.9rem", color: "var(--tinta-suave)" }}>{sessao.nome}</span>
           <button className="secundario" onClick={sair}>Sair</button>
