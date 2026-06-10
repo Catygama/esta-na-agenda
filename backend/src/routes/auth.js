@@ -17,6 +17,12 @@ router.post("/registo", (req, res) => {
   const { nome, email, password } = req.body;
   if (!nome || !email || !password) {
     return res.status(400).json({ erro: "Nome, email e password sao obrigatorios." });
+    
+  if (!emailInstitucional(email)) {
+    return res.status(400).json({
+      erro: "Apenas sao permitidos emails institucionais (@ipcb.pt ou @ipcbcampus.pt).",
+    });
+  }
   }
   const existe = db.prepare("SELECT id FROM utilizador WHERE email = ?").get(email);
   if (existe) {
