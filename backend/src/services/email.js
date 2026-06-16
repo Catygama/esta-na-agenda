@@ -32,9 +32,9 @@ export async function enviarEmail({ para, assunto, texto }) {
   }
 }
 
-// Cria uma notificacao no painel do aluno
-export function criarNotificacao(utilizadorId, mensagem) {
-  db.prepare(
-    "INSERT INTO notificacao (utilizador_id, mensagem) VALUES (?, ?)"
-  ).run(utilizadorId, mensagem);
+// Cria uma notificacao no painel do aluno (opcionalmente ligada a um aviso)
+export function criarNotificacao(utilizadorId, mensagem, avisoId = null) {
+	db.prepare(
+		"INSERT INTO notificacao (utilizador_id, mensagem, aviso_id) VALUES (?, ?, ?)"
+	).run(utilizadorId, mensagem, avisoId);
 }

@@ -36,10 +36,17 @@ router.delete("/subscricoes/:ucId", autenticar, (req, res) => {
 
 // GET /api/notificacoes  -> notificacoes do aluno [RF10]
 router.get("/notificacoes", autenticar, (req, res) => {
-  const ns = db
-    .prepare("SELECT * FROM notificacao WHERE utilizador_id = ? ORDER BY criada_em DESC")
-    .all(req.utilizador.id);
-  res.json(ns);
+	const ns = db
+		.prepare(`SELECT n.id, n.mensagem, n.lida, n.criada_em, n.aviso_id,
+                a.assunto, a.corpo, a.enviado_em,
+                uc.sigla, uc.nome AS uc_nome
+              FROM notificacao n
+              LEFT JOIN aviso a ON a.id = n.aviso_id
+              LEFT JOIN uc ON uc.id = a.uc_id
+              WHERE n.utilizador_id = ?
+              ORDER BY n.criada_em DESC`)
+		.all(req.utilizador.id);
+	res.json(ns);
 });
 
 // PUT /api/notificacoes/:id/lida  -> marca como lida

@@ -76,9 +76,17 @@ CREATE TABLE IF NOT EXISTS notificacao (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   utilizador_id INTEGER NOT NULL REFERENCES utilizador(id) ON DELETE CASCADE,
   mensagem TEXT NOT NULL, lida INTEGER NOT NULL DEFAULT 0,
-  criada_em TEXT NOT NULL DEFAULT (datetime('now'))
+  criada_em TEXT NOT NULL DEFAULT (datetime('now')),
+  aviso_id INTEGER REFERENCES aviso(id) ON DELETE SET NULL
 );
 `;
 db.exec(SCHEMA);
+
+// Migracao idempotente: garante a coluna aviso_id em bases de dados antigas.
+try {
+	db.exec("ALTER TABLE notificacao ADD COLUMN aviso_id INTEGER REFERENCES aviso(id) ON DELETE SET NULL");
+} catch {
+	// coluna ja existe
+}
 
 export default { prepare, exec: (s) => db.exec(s) };

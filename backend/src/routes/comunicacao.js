@@ -9,28 +9,38 @@ const router = Router();
 
 // POST /api/avisos  -> coordenador envia aviso a subscritores de UC(s) selecionadas [RF04]
 router.post("/avisos", autenticar, exigirCoordenador, async (req, res) => {
-  const { uc_ids, assunto, corpo } = req.body;
-  if (!Array.isArray(uc_ids) || uc_ids.length === 0 || !assunto || !corpo) {
-    return res.status(400).json({ erro: "uc_ids (lista), assunto e corpo sao obrigatorios." });
-  }
-  const placeholders = uc_ids.map(() => "?").join(",");
-  const destinatarios = db
-    .prepare(`SELECT DISTINCT u.id, u.email FROM utilizador u
-              JOIN subscricao s ON s.utilizador_id = u.id
-              WHERE s.uc_id IN (${placeholders})`)
-    .all(...uc_ids);
+	const { uc_ids, assunto, corpo } = req.body;
+	if (!Array.isArray(uc_ids) || uc_ids.length === 0 || !assunto || !corpo) {
+		return res.status(400).json({ erro: "uc_ids (lista), assunto e corpo sao obrigatorios." });
+	}
 
-  let enviados = 0;
-  for (const uc_id of uc_ids) {
-    db.prepare("INSERT INTO aviso (uc_id, assunto, corpo) VALUES (?, ?, ?)")
-      .run(uc_id, assunto, corpo);
-  }
-  for (const d of destinatarios) {
-    criarNotificacao(d.id, `Novo aviso: ${assunto}`);
-    const r = await enviarEmail({ para: d.email, assunto: `[ESTá na Agenda] ${assunto}`, texto: corpo });
-    if (r.ok) enviados++;
-  }
-  res.status(201).json({ destinatarios: destinatarios.length, enviados });
+	const destinatariosUnicos = new Set();
+	let enviados = 0;
+
+	for (const uc_id of uc_ids) {
+		const info = db.prepare("INSERT INTO aviso (uc_id, assunto, corpo) VALUES (?, ?, ?)").run(uc_id, assunto, corpo);
+		const avisoId = info.lastInsertRowid;
+
+		const uc = db.prepare("SELECT sigla FROM uc WHERE id = ?").get(uc_id);
+		const sigla = uc?.sigla || "UC";
+
+		const destinatariosUc = db
+			.prepare(`SELECT u.id, u.email FROM utilizador u
+                JOIN subscricao s ON s.utilizador_id = u.id
+                WHERE s.uc_id = ?`)
+			.all(uc_id);
+
+		for (const d of destinatariosUc) {
+			criarNotificacao(d.id, `[${sigla}] ${assunto}`, avisoId);
+			if (!destinatariosUnicos.has(d.email)) {
+				destinatariosUnicos.add(d.email);
+				const r = await enviarEmail({ para: d.email, assunto: `[ESTá na Agenda] ${assunto}`, texto: corpo });
+				if (r.ok) enviados++;
+			}
+		}
+	}
+
+	res.status(201).json({ destinatarios: destinatariosUnicos.size, enviados });
 });
 
 // ---------- Inqueritos ----------
