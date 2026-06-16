@@ -407,3 +407,240 @@ label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--tinta
     max-height: 40vh;
   }
 }
+
+/* ---- Cabecalho de campo (label + contador) ---- */
+.campo-cabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.campo-cabecalho label { margin-bottom: 0; }
+.campo-contador {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
+/* ---- Chips (multi/single select) ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: stretch;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 14px;
+  background: var(--branco);
+  color: var(--tinta);
+  border: 1.5px solid var(--borda);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.chip:hover {
+  background: var(--petroleo-claro);
+  border-color: var(--petroleo);
+  color: var(--petroleo-escuro);
+}
+.chip.ativo {
+  background: var(--petroleo);
+  border-color: var(--petroleo);
+  color: var(--branco);
+}
+.chip.ativo:hover {
+  background: var(--petroleo-escuro);
+  border-color: var(--petroleo-escuro);
+  color: var(--branco);
+}
+.chip-sigla { font-weight: 700; letter-spacing: 0.01em; }
+.chip-nome {
+  font-weight: 400;
+  font-size: 0.82rem;
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+.chip.ativo .chip-nome { opacity: 0.9; }
+
+/* ---- Etiqueta suave (variacao secundaria da etiqueta-tipo) ---- */
+.etiqueta-tipo.etiqueta-suave {
+  background: transparent;
+  color: var(--tinta-suave);
+  border: 1px solid var(--borda);
+}
+
+/* ---- Inqueritos (linha, formulario de resposta, respostas) ---- */
+.inq-linha {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--borda);
+}
+.inq-linha:last-child { border-bottom: none; }
+.inq-cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.inq-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.inq-pergunta { font-weight: 600; }
+.inq-respondido {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--petroleo-claro);
+  color: var(--petroleo-escuro);
+}
+.inq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+.inq-form > .chips { width: 100%; }
+.inq-form textarea { resize: vertical; }
+.inq-respostas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--papel);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+}
+.inq-resposta {
+  padding: 8px 10px;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+}
+.inq-resposta-autor {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--petroleo-escuro);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.inq-resposta-conteudo {
+  font-size: 0.92rem;
+  color: var(--tinta);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---- Opcoes editaveis (formulario do coordenador) ---- */
+.opcoes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.opcao-linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.opcao-linha input { flex: 1; }
+.opcao-remover {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: transparent;
+  color: var(--alerta);
+  border: 1.5px solid var(--borda);
+  border-radius: 50%;
+}
+.opcao-remover:hover:not(:disabled) {
+  background: var(--alerta-fundo);
+  border-color: var(--alerta);
+}
+.opcao-remover:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.botao-add {
+  align-self: flex-start;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+/* ---- Resultados agregados (escolha multipla) ---- */
+.resultado-linha {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.2fr) 2fr auto;
+  align-items: center;
+  gap: 12px;
+}
+.resultado-rotulo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--tinta);
+  word-break: break-word;
+}
+.resultado-barra {
+  height: 22px;
+  background: var(--petroleo-claro);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.resultado-preenchida {
+  height: 100%;
+  background: var(--petroleo);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+  min-width: 0;
+}
+.resultado-meta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  white-space: nowrap;
+}
+.resultado-total {
+  font-size: 0.82rem;
+  color: var(--tinta-suave);
+  text-align: right;
+  padding-top: 4px;
+  border-top: 1px dashed var(--borda);
+  margin-top: 4px;
+}
+.resultado-vazio {
+  padding: 12px 4px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .resultado-linha {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .resultado-meta { text-align: right; }
+}

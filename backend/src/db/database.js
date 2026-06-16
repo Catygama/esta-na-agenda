@@ -64,13 +64,26 @@ CREATE TABLE IF NOT EXISTS aviso (
 CREATE TABLE IF NOT EXISTS inquerito (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   uc_id INTEGER NOT NULL REFERENCES uc(id) ON DELETE CASCADE,
-  pergunta TEXT NOT NULL
+  pergunta TEXT NOT NULL,
+  tipo TEXT NOT NULL DEFAULT 'texto' CHECK (tipo IN ('texto','escolha'))
+);
+CREATE TABLE IF NOT EXISTS opcao_inquerito (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  inquerito_id INTEGER NOT NULL REFERENCES inquerito(id) ON DELETE CASCADE,
+  texto TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS resposta (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   inquerito_id INTEGER NOT NULL REFERENCES inquerito(id) ON DELETE CASCADE,
   utilizador_id INTEGER NOT NULL REFERENCES utilizador(id) ON DELETE CASCADE,
-  conteudo TEXT NOT NULL, UNIQUE (inquerito_id, utilizador_id)
+  conteudo TEXT NOT NULL,
+  opcao_id INTEGER REFERENCES opcao_inquerito(id) ON DELETE CASCADE,
+  UNIQUE (inquerito_id, utilizador_id),
+  CHECK (
+    (opcao_id IS NOT NULL AND conteudo = '')
+    OR
+    (opcao_id IS NULL AND conteudo <> '')
+  )
 );
 CREATE TABLE IF NOT EXISTS notificacao (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,9 +95,20 @@ CREATE TABLE IF NOT EXISTS notificacao (
 `;
 db.exec(SCHEMA);
 
-// Migracao idempotente: garante a coluna aviso_id em bases de dados antigas.
+// Migracoes idempotentes: garantem colunas novas em bases de dados ja populadas.
+// (Em SQLite, ADD COLUMN nao suporta CHECK; em bases novas o CHECK ja vem do SCHEMA.)
 try {
 	db.exec("ALTER TABLE notificacao ADD COLUMN aviso_id INTEGER REFERENCES aviso(id) ON DELETE SET NULL");
+} catch {
+	// coluna ja existe
+}
+try {
+	db.exec("ALTER TABLE inquerito ADD COLUMN tipo TEXT NOT NULL DEFAULT 'texto'");
+} catch {
+	// coluna ja existe
+}
+try {
+	db.exec("ALTER TABLE resposta ADD COLUMN opcao_id INTEGER REFERENCES opcao_inquerito(id) ON DELETE CASCADE");
 } catch {
 	// coluna ja existe
 }

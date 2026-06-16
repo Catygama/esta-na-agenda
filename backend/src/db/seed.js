@@ -2,9 +2,9 @@ import bcrypt from "bcryptjs";
 import db from "./database.js";
 
 // Limpar dados existentes
-db.exec(`DELETE FROM resposta; DELETE FROM inquerito; DELETE FROM aviso;
-         DELETE FROM notificacao; DELETE FROM subscricao; DELETE FROM data_avaliacao;
-         DELETE FROM uc; DELETE FROM utilizador;`);
+db.exec(`DELETE FROM resposta; DELETE FROM opcao_inquerito; DELETE FROM inquerito;
+         DELETE FROM aviso; DELETE FROM notificacao; DELETE FROM subscricao;
+         DELETE FROM data_avaliacao; DELETE FROM uc; DELETE FROM utilizador;`);
 
 // --- Utilizadores ---
 const hash = (p) => bcrypt.hashSync(p, 10);
