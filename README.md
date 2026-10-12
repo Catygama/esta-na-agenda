@@ -42,10 +42,10 @@ Abrir `http://localhost:5173` no browser.
 
 ## Contas de exemplo
 
-| Perfil       | Email                | Password  |
-|--------------|----------------------|-----------|
-| Coordenador  | coordenador@estcb.pt | coord123  |
-| Aluno        | ana@aluno.estcb.pt   | aluno123  |
+| Perfil       | Email                   | Password  |
+|--------------|-------------------------|-----------|
+| Coordenador  | coordenador@ipcb.pt     | coord123  |
+| Aluno        | ana.silva@ipcbcampus.pt | aluno123  |
 
 ## Funcionalidades
 

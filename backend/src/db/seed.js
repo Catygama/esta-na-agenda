@@ -10,7 +10,7 @@ db.exec(`DELETE FROM resposta; DELETE FROM opcao_inquerito; DELETE FROM inquerit
 const hash = (p) => bcrypt.hashSync(p, 10);
 const coord = db
   .prepare("INSERT INTO utilizador (nome, email, password_hash, perfil) VALUES (?, ?, ?, 'coordenador')")
-  .run("Rui Salgueiro", "coordenador@ipcb.pt", hash("admin123"));
+  .run("Pedro Santos", "coordenador@ipcb.pt", hash("coord123"));
 const ana = db
   .prepare("INSERT INTO utilizador (nome, email, password_hash, perfil) VALUES (?, ?, ?, 'aluno')")
   .run("Ana Silva", "ana.silva@ipcbcampus.pt", hash("aluno123"));

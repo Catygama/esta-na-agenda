@@ -10,7 +10,7 @@ function check(cond, msg) {
 }
 
 const coord = db.prepare("SELECT * FROM utilizador WHERE perfil='coordenador'").get();
-const ana = db.prepare("SELECT * FROM utilizador WHERE email='ana@aluno.estcb.pt'").get();
+const ana = db.prepare("SELECT * FROM utilizador WHERE email='ana.silva@ipcbcampus.pt'").get();
 check(coord && coord.perfil === "coordenador", "coordenador existe");
 check(ana && ana.perfil === "aluno", "aluna Ana existe");
 

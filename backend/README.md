@@ -50,8 +50,8 @@ O servidor fica disponível em `http://localhost:3001`.
 
 | Perfil       | Email                   | Password   |
 |--------------|-------------------------|------------|
-| Coordenador  | coordenador@estcb.pt    | coord123   |
-| Aluno        | ana@aluno.estcb.pt      | aluno123   |
+| Coordenador  | coordenador@ipcb.pt     | coord123   |
+| Aluno        | ana.silva@ipcbcampus.pt | aluno123   |
 
 ## Endpoints principais
 

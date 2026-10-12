@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
 
+// Em producao o segredo tem de vir do .env: um valor por defeito conhecido
+// permitiria a qualquer pessoa forjar tokens (incluindo de coordenador).
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
+  throw new Error("JWT_SECRET nao definido. Configure-o no .env antes de arrancar em producao.");
+}
 const SEGREDO = process.env.JWT_SECRET || "segredo-de-desenvolvimento-trocar-em-producao";
 
 // Gera um token para um utilizador
